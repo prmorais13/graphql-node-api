@@ -1,4 +1,4 @@
-const gulp = require("gulp");
+const { src, dest, series, watch, parallel } = require("gulp");
 const ts = require("gulp-typescript");
 const clean = require("gulp-clean");
 
@@ -8,22 +8,26 @@ const tsProject = ts.createProject("tsconfig.json");
 
 scripts = () => {
 	const tsResult = tsProject.src().pipe(tsProject());
-	return tsResult.js.pipe(gulp.dest("dist"));
+	return tsResult.js.pipe(dest("./dist"));
 };
 
 static = () => {
-	return gulp.src(["src/**/*.json"]).pipe(gulp.dest("dist"));
+	return src(["src/**/*.json"]).pipe(dest("./dist"));
 };
 
 cleans = () => {
-	gulp.src("dist").pipe(clean());
+	return src("./dist").pipe(clean());
 };
 
-watchs = () => {
-	gulp.watch(["src/**/*.ts", "src/**/*.json"]);
+build = () => {
+	return series(cleans, static, scripts);
 };
 
-exports.default = gulp.series(static, scripts, watchs);
+watches = () => {
+	return watch(["./src/**/*.ts", "./src/**/*.json"], build);
+};
+
+exports.default = watches;
 
 // CÓDIGO PARA VERSÃO 3 DO GULP
 
