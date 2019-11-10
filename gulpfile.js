@@ -8,15 +8,15 @@ const tsProject = ts.createProject("tsconfig.json");
 
 scripts = () => {
 	const tsResult = tsProject.src().pipe(tsProject());
-	return tsResult.js.pipe(dest("./dist"));
+	return tsResult.js.pipe(dest("dist"));
 };
 
 static = () => {
-	return src(["src/**/*.json"]).pipe(dest("./dist"));
+	return src(["src/**/*.json"]).pipe(dest("dist"));
 };
 
 cleans = () => {
-	return src("./dist").pipe(clean());
+	return src("dist").pipe(clean());
 };
 
 build = () => {
@@ -24,7 +24,10 @@ build = () => {
 };
 
 watches = () => {
-	return watch(["./src/**/*.ts", "./src/**/*.json"], build);
+	return watch(
+		["src/**/*.ts", "src/**/*.json"],
+		series(cleans, static, scripts)
+	);
 };
 
 exports.default = watches;
