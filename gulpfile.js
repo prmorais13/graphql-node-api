@@ -1,4 +1,4 @@
-const { src, dest, series, watch, parallel } = require("gulp");
+const { task, src, dest, series, watch } = require("gulp");
 const ts = require("gulp-typescript");
 const clean = require("gulp-clean");
 
@@ -6,31 +6,53 @@ const tsProject = ts.createProject("tsconfig.json");
 
 // CÓDIGO PARA VERSÃO 4 DO GULP
 
-scripts = () => {
-	const tsResult = tsProject.src().pipe(tsProject());
-	return tsResult.js.pipe(dest("dist"));
-};
+task("scripts", () => {
+  const tsResult = tsProject.src().pipe(tsProject());
+  return tsResult.js.pipe(dest("dist"));
+});
 
-static = () => {
-	return src(["src/**/*.json"]).pipe(dest("dist"));
-};
+task("static", () => {
+  return src(["src/**/*.json"]).pipe(dest("dist"));
+});
 
-cleans = () => {
-	return src("dist").pipe(clean());
-};
+task("limpar", () => {
+  return src("dist", { allowEmpty: true }).pipe(clean());
+});
 
-build = () => {
-	return series(cleans, static, scripts);
-};
+task("monitorar", () => {
+  watch(
+    ["src/**/*.ts", "src/**/*.json"],
+    series("limpar", "static", "scripts")
+  );
+});
 
-watches = () => {
-	return watch(
-		["src/**/*.ts", "src/**/*.json"],
-		series(cleans, static, scripts)
-	);
-};
+task("default", series("monitorar"));
 
-exports.default = watches;
+// scripts = () => {
+// 	const tsResult = tsProject.src().pipe(tsProject());
+// 	return tsResult.js.pipe(dest("dist"));
+// };
+
+// static = () => {
+// 	return src(["src/**/*.json"]).pipe(dest("dist"));
+// };
+
+// cleans = () => {
+// 	return src("dist").pipe(clean());
+// };
+
+// build = () => {
+// 	return series(cleans, static, scripts);
+// };
+
+// watches = () => {
+// 	return watch(
+// 		["src/**/*.ts", "src/**/*.json"],
+// 		series(cleans, static, scripts)
+// 	);
+// };
+
+// exports.default = watches;
 
 // CÓDIGO PARA VERSÃO 3 DO GULP
 
