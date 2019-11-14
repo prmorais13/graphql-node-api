@@ -1,7 +1,7 @@
-import { Sequelize } from "sequelize";
-import User from "../models/User";
+// import { Sequelize } from "sequelize";
+// import User from "../models/User";
 
-const conexao = new Sequelize();
-User.init(conexao);
+// const conexao = new Sequelize();
+// User.init(conexao);
 
-export default conexao;
+// export default conexao;
