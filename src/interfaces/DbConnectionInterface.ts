@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import { ModelsInterface } from "./ModelsInterface";
 
-export interface ConnectionInterface extends ModelsInterface {
-	sequelize: Sequelize;
+export interface DbConnection extends ModelsInterface {
+  sequelize: Sequelize;
 }
