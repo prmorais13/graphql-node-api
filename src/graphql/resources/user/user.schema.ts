@@ -27,7 +27,7 @@ input UserUpdatePasswordInput {
 }
 `;
 const userQueries = `
-	users(first: int, offset: Int): [User!]!
+	users(first: Int, offset: Int): [User!]!
 	user(id: ID!): User
 
 `;

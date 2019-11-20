@@ -26,7 +26,7 @@ task("monitorar", () => {
   );
 });
 
-task("default", series("monitorar"));
+task("default", series("limpar", "static", "scripts", "monitorar"));
 
 // scripts = () => {
 // 	const tsResult = tsProject.src().pipe(tsProject());

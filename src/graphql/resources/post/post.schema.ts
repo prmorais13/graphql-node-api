@@ -6,13 +6,13 @@ type Post {
 	content: String!
 	photo: String!
 	author: User!
-	comments: [Comments!]!
+	comments: [Comment!]!
 	createdAt: String!
 	updatedAt: String!
 	
 }
 
-input PostCreateInput {
+input PostInput {
 	title: String!
 	content: String!
 	photo: String!
@@ -21,13 +21,13 @@ input PostCreateInput {
 
 `;
 const postQueries = `
-	posts(first: int, offset: Int): [Post!]!
+	posts(first: Int, offset: Int): [Post!]!
 	post(id: ID!): Post
 
 `;
 const postMutations = `
-	createPost(input: PostCreateInput!): Post
-	updatePost(id: ID!, input: PostUpdateInput!): Post
+	createPost(input: PostInput!): Post
+	updatePost(id: ID!, input: PostInput!): Post
 	deletetePost(id: ID!): Boolean
 
 `;
