@@ -1,4 +1,10 @@
-import { Sequelize, Model, DataTypes, CreateOptions } from "sequelize";
+import {
+  Sequelize,
+  Model,
+  DataTypes,
+  CreateOptions,
+  BuildOptions
+} from "sequelize";
 import { genSaltSync, hashSync, compareSync } from "bcryptjs";
 import { BaseModelInterface } from "../interfaces/BaseModelInterface";
 
@@ -16,12 +22,16 @@ export interface UserInstance extends UserAttributes {
   isPassword(encondedPassword: string, password: string): boolean;
 }
 
-export interface UserModel
-  extends BaseModelInterface,
-    Model<UserInstance, UserAttributes> {}
+// export interface UserModel
+//   extends BaseModelInterface,
+// 		Model<UserInstance, UserAttributes> {}
+
+export type UserModel = typeof Model & {
+  new (values?: object, options?: BuildOptions): any;
+};
 
 export default (sequelize: Sequelize): UserModel => {
-  const User: any = sequelize.define(
+  const User = <UserModel>sequelize.define(
     "User",
     {
       id: {

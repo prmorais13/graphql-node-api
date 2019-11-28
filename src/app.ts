@@ -1,8 +1,9 @@
+import { DbConnection } from "./interfaces/DbConnectionInterface";
 import express, { Application } from "express";
 import graphqlHTTP from "express-graphql";
 
 import schema from "./graphql/schema";
-// import connection from "./database";
+import db from "./models";
 
 class App {
   public express: Application;
@@ -16,10 +17,18 @@ class App {
   private middleware() {
     this.express.use(
       "/graphql",
-      graphqlHTTP({
+
+      (req: any, res, next) => {
+        req["context"] = {};
+        req["context"].db = db;
+        next();
+      },
+
+      graphqlHTTP((req: any) => ({
         schema,
-        graphiql: true
-      })
+        graphiql: true,
+        context: req["context"]
+      }))
     );
   }
 }

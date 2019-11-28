@@ -1,4 +1,4 @@
-export const db = {
+export const dbx = {
   username: "root",
   password: "Paulo13",
   database: "graphql-node-api",
